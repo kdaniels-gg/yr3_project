@@ -10,7 +10,6 @@ from statsmodels.stats.multitest import multipletests
 from sklearn.cluster import DBSCAN
 
 
-
 #
 #FASTA_DIR        = Path('fastas')
 #PFAM_FASTA_DIR   = Path('pfam_fastas')
