@@ -2097,7 +2097,7 @@ PLSDB_META_PATH = Path('plsdb_meta')   # optional; taxonomy enrichment skipped i
 # Or replace the fallback string below (not recommended for shared repos).
 NVIDIA_API_KEY = os.getenv(
     'NVIDIA_API_KEY',
-    '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'
+    'not leaking my key'
 )
 EVO2_URL = os.getenv(
     'EVO2_URL',
