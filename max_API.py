@@ -1,36 +1,5 @@
-"""
-all_betalactamase_evo2_bystander.py
-====================================
-Enumerate CBE bystander mutations for ALL beta-lactamase families
-(TEM, SHV, KPC, CTX-M, NDM, AmpC, BlaC) and score them via the
-Evo2-40B API.
 
-Run interactively (cell-by-cell in Jupyter / ipython) or as a plain
-Python script.  No def main() wrapper — every section executes at
-module level, left-to-right.
 
-Fixes vs scale_up_API.py:
-  1. NVIDIA_API_KEY moved to top-level config (no bare key buried ~line 714).
-  2. 'requests', 'time' imported at the top (were missing until line 704).
-  3. Taxonomy enrichment block made robust (KeyError on nuc_taxuid lookup
-     was a silent crash risk; now wrapped in .get()).
-  4. Prefix cache is now bounded (LRU-style dict eviction) to prevent
-     unbounded RAM growth over large runs.
-  5. Evo2 FASTA header now uses query_id only (no pipe-split confusion).
-  6. Cross-scope summary extended to all families.
-  7. All-families scope replaces the old TEM-only scope A and TEM-wide
-     scope B; three new scopes: per-family, all-families, and
-     priority (GOF-overlap-only) rows from the all-families enumeration.
-  8. Mutation count printed before the API loop begins.
-  9. Output CSV append-mode write buffered with flush-per-row (unchanged)
-     but also prints a running ETA.
- 10. Removed hard-coded output path duplication (was Path('bystander_evo2
-     _results/A_TEM1/output.csv') repeated in two places).
-"""
-
-# =============================================================================
-# SECTION 1 — IMPORTS  (ALL AT TOP — fixes missing 'requests'/'time')
-# =============================================================================
 
 import re
 import os
@@ -64,16 +33,13 @@ OUT_BASE.mkdir(exist_ok=True)
 
 PLSDB_META_PATH = Path('plsdb_meta')   # optional; taxonomy enrichment skipped if absent
 
-# ── API config ────────────────────────────────────────────────────────────────
-# Set NVIDIA_API_KEY in your environment:  export NVIDIA_API_KEY="nvapi-..."
-# Or replace the fallback string below (not recommended for shared repos).
 NVIDIA_API_KEY = os.getenv(
     'NVIDIA_API_KEY',
     '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'
 )
 EVO2_URL = os.getenv(
     'EVO2_URL',
-    'https://health.api.nvidia.com/v1/biology/arc/evo2-40b/generate'
+    'insert key here'
 )
 
 # ── Enumeration settings ──────────────────────────────────────────────────────
@@ -100,7 +66,6 @@ print(f'  Prefix cache max size: {PREFIX_CACHE_MAX:,}')
 # SECTION 3 — CONSTANTS
 # =============================================================================
 
-# Full GOF dictionary drawn from someday_maybe_nextweek.py
 GOF_MUTATIONS = {
     'TEM': [
         {'ref_pos': 104, 'ref_aa': 'E', 'alt_aa': None,  'category': 'resistance',          'note': 'Glu104'},
